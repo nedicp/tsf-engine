@@ -1,0 +1,16 @@
+{
+    "model_params": {
+        "num_blocks_trend": 3,
+        "num_blocks_seasonal": 3,
+        "n_neurons": 128,
+        "n_layers": 3,
+        "poly_order": 3,
+        "l2_reg": 1e-3,
+        "dropout_rate": 0,
+        "input_shape": [
+            24,
+            24
+        ],
+        "horizon": 24
+    }
+}
