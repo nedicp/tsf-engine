@@ -6,7 +6,7 @@ This project uses [**Poetry**](https://python-poetry.org/) for dependency manage
 
 ## 1.1 Install Poetry
 
-### Linux & macOS
+> Linux & macOS
 
 ```bash
 curl -sSL https://install.python-poetry.org | python3 -
@@ -19,7 +19,7 @@ echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc   # or ~/.zshrc
 source ~/.bashrc                                           # or source ~/.zshrc
 ```
 
-### Windows (PowerShell)
+> Windows (PowerShell)
 
 ```powershell
 (Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | python -
@@ -97,11 +97,11 @@ poetry add <new-library>
 
 This command will:
 
-- Find the latest compatible version of <new-library>.
-- Add <new-library> to the [project.dependencies] section in your pyproject.toml file.
+- Find the latest compatible version of `new-library`.
+- Add `new-library` to the [project.dependencies] section in your pyproject.toml file.
 - Install the package and its dependencies into your project's virtual environment.
 - Update the poetry.lock file to lock the specific versions installed.
-- After running the command, you should see <new-library> listed under the dependencies in your pyproject.toml.
+- After running the command, you should see `new-library` listed under the dependencies in your pyproject.toml.
 
 
 # 2. Pre-Commit Hooks
