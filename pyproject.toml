@@ -1,0 +1,29 @@
+[tool.poetry]
+package-mode = false
+
+[project]
+name = "tsf-engine"
+version = "0.1.0"
+description = ""
+
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+
+dependencies = [
+    "tensorflow (>=2.19.0,<3.0.0)",
+    "uvicorn (>=0.35.0,<0.36.0)",
+    "fastapi (>=0.116.1,<0.117.0)",
+    "matplotlib (>=3.10.5,<4.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^4.2.0"
+pytest = "^8.3.5"
+
+[tool.poetry.requires-plugins]
+poetry-plugin-export = ">=1.8"

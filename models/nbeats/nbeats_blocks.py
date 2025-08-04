@@ -37,7 +37,7 @@ class NBeatsBlockSeason(tf.keras.layers.Layer):
 
     def call(self, inputs):
         x = inputs
-        
+
         for layer in self.hidden:
             x = layer(x)
 
@@ -146,7 +146,7 @@ class NBeatsBlockTrend(tf.keras.layers.Layer):
 
         for layer in self.hidden:
             x = layer(x)
-            
+
         if self.dropout_rate != 0:
             x = self.dropout(x)
 

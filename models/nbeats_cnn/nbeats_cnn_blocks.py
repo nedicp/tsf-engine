@@ -142,7 +142,7 @@ class NBeatsBlockTrend(tf.keras.layers.Layer):
             pool_size=2, strides=2, padding="valid"
         )
         self.flat = tf.keras.layers.Flatten()
-        
+
         self.theta_layer = tf.keras.layers.Dense(
             (poly_order + 1) * 2, activation="linear"
         )

@@ -1,0 +1,29 @@
+state_level_24h:
+  nbeats_cnn:
+    num_blocks_trend: 3
+    num_blocks_seasonal: 3
+    n_neurons: 128
+    n_layers: 3
+    poly_order: 3
+    l2_reg: 0.001
+    dropout_rate: 0
+    input_shape: [24, 24]
+    horizon: 24
+  cnn_nbeats:
+    num_blocks: 12
+    n_neurons: 64
+    n_layers: 4
+    l2_reg: 0.001
+    dropout_rate: 0.2
+    input_shape: [24, 24]
+    horizon: 24
+  nbeats:
+    num_blocks_trend: 3
+    num_blocks_seasonal: 3
+    n_neurons: 128
+    n_layers: 3
+    poly_order: 3
+    l2_reg: 0.001
+    dropout_rate: 0
+    input_shape: [24, 24]
+    horizon: 24

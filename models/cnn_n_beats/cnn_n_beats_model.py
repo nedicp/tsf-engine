@@ -20,13 +20,13 @@ def create_cnn_NBEATS(config):
         tf.keras.Model: Compiled CNN-N-BEATS model
     """
 
-    input_shape = config["model_params"]["input_shape"]
-    horizon = config["model_params"]["horizon"]
-    n_neurons = config["model_params"]["n_neurons"]
-    l2_reg = config["model_params"]["l2_reg"]
-    num_blocks = config["model_params"]["num_blocks"]
-    dropout_rate = config["model_params"]["dropout_rate"]
-    n_layers = config["model_params"]["n_layers"]
+    input_shape = config["input_shape"]
+    horizon = config["horizon"]
+    n_neurons = config["n_neurons"]
+    l2_reg = config["l2_reg"]
+    num_blocks = config["num_blocks"]
+    dropout_rate = config["dropout_rate"]
+    n_layers = config["n_layers"]
 
     def subtract_last_value(x):
         last_value = x[:, -1, -1]
@@ -71,7 +71,7 @@ def create_cnn_NBEATS(config):
         activation="linear",
         kernel_regularizer=tf.keras.regularizers.l2(l2_reg),
     )(x)
-    
+
     forecast, backcast = NbeatsBlock(
         input_size=n_neurons,  # because of the Dense layer above.
         dropout_rate=dropout_rate,
@@ -81,7 +81,7 @@ def create_cnn_NBEATS(config):
         l2_reg=l2_reg,
         name="TrendBlock0",
     )(x)
-    
+
     residuals = tf.keras.layers.subtract([x, backcast])
 
     for i in range(num_blocks - 1):

@@ -21,21 +21,21 @@ def create_NBEATS_sin_cos(config) -> tf.keras.Model:
     Returns:
         tf.keras.Model: Compiled N-BEATS model
     """
-    
-    input_shape = config["model_params"]["input_shape"]
-    horizon = config["model_params"]["horizon"]
-    n_neurons = config["model_params"]["n_neurons"]
-    n_layers = config["model_params"]["n_layers"]
-    poly_order = config["model_params"]["poly_order"]
-    l2_reg = config["model_params"]["l2_reg"]
-    dropout_rate = config["model_params"]["dropout_rate"]
-    num_blocks_trend = config["model_params"]["num_blocks_trend"]
-    num_blocks_seasonal = config["model_params"]["num_blocks_seasonal"]
-    
+
+    input_shape = config["input_shape"]
+    horizon = config["horizon"]
+    n_neurons = config["n_neurons"]
+    n_layers = config["n_layers"]
+    poly_order = config["poly_order"]
+    l2_reg = config["l2_reg"]
+    dropout_rate = config["dropout_rate"]
+    num_blocks_trend = config["num_blocks_trend"]
+    num_blocks_seasonal = config["num_blocks_seasonal"]
+
     stack_input = tf.keras.layers.Input(shape=input_shape)
 
     input_size = np.prod(input_shape)
-    
+
     x = (
         tf.keras.layers.Flatten()(stack_input) if len(input_shape) > 1 else stack_input
     )
