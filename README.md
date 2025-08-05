@@ -87,9 +87,15 @@ This command will:
 .\activate.ps1
 ```
 
-## 1.6 Install new libraries
+## 1.6 Run a file
 
-If you want to install new libraries open your terminal in the root directory of deepmarkpy project (where the pyproject.toml file is located) and run the following command:
+```bash
+poetry run python file_to_run.py
+```
+
+## 1.7 Install new libraries
+
+If you want to install new libraries open your terminal in the root directory of project (where the pyproject.toml file is located) and run the following command:
 
 ```bash
 poetry add <new-library>
