@@ -1,0 +1,83 @@
+name: CI - Test FastAPI Time Series Forecasting
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: latest
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+
+      - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: poetry install --no-interaction --no-ansi
+
+      - name: Start FastAPI app in background
+        run: |
+          export MODELS_SKIP_LOAD=1
+          poetry run python app.py &
+          APP_PID=$!
+          echo "APP_PID=$APP_PID" >> $GITHUB_ENV
+
+          sleep 20
+
+          if ! kill -0 $APP_PID 2>/dev/null; then
+            echo "Failed to start FastAPI app"
+            exit 1
+          fi
+
+          echo "FastAPI app started with PID: $APP_PID"
+
+      - name: Wait for API to be ready
+        run: |
+          timeout=30
+          while [ $timeout -gt 0 ]; do
+            if curl -f http://localhost:5000/healthz >/dev/null 2>&1; then
+              echo "API is ready!"
+              break
+            fi
+            echo "Waiting for API to be ready... ($timeout seconds left)"
+            sleep 2
+            timeout=$((timeout-2))
+          done
+
+          if [ $timeout -le 0 ]; then
+            echo "API failed to become ready in time"
+            exit 1
+          fi
+
+      - name: Health check
+        run: |
+          curl -f http://localhost:5000/healthz
+
+      - name: Stop FastAPI app
+        if: always()
+        run: |
+          if [ ! -z "$APP_PID" ]; then
+            kill $APP_PID || true
+            echo "FastAPI app stopped"
+          fi

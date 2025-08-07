@@ -1,5 +1,6 @@
 import sys
 import time
+import os
 import numpy as np
 import logging
 import uvicorn
@@ -14,7 +15,8 @@ from models.model_loader import load_models_state_level_24h
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
-models = load_models_state_level_24h()
+MODELS_SKIP_LOAD = os.getenv("MODELS_SKIP_LOAD", "0") in {"1", "true", "True"}
+models = None if MODELS_SKIP_LOAD else load_models_state_level_24h()
 
 class ForecastRequest(BaseModel):
     data: List[List[float]]  # Shape will be (24, 24)
@@ -68,6 +70,8 @@ async def predict_nbeats_cnn(request: ForecastRequest):
 
         data_with_batch = tf.convert_to_tensor(data_with_batch)
 
+        if models is None:
+            raise RuntimeError("Models not loaded. Set MODELS_SKIP_LOAD=0 to enable predictions.")
         forecast = models[0].predict(data_with_batch)
 
         forecast = np.squeeze(forecast, axis=0)
@@ -104,6 +108,8 @@ async def predict_cnn_nbeats(request: ForecastRequest):
 
         data_with_batch = tf.convert_to_tensor(data_with_batch)
 
+        if models is None:
+            raise RuntimeError("Models not loaded. Set MODELS_SKIP_LOAD=0 to enable predictions.")
         forecast = models[1].predict(data_with_batch)
 
         forecast = np.squeeze(forecast, axis=0)
@@ -140,6 +146,8 @@ async def predict_nbeats(request: ForecastRequest):
 
         data_with_batch = tf.convert_to_tensor(data_with_batch)
 
+        if models is None:
+            raise RuntimeError("Models not loaded. Set MODELS_SKIP_LOAD=0 to enable predictions.")
         forecast = models[2].predict(data_with_batch)
 
         forecast = np.squeeze(forecast, axis=0)
