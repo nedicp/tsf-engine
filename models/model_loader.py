@@ -20,8 +20,6 @@ def load_models_state_level_24h():
 
     config = load_model_config("state_level_24h")
 
-    print(config["nbeats_cnn"])
-
     model_nbeats_cnn = create_NBEATS_CNN(config=config["nbeats_cnn"])
     model_nbeats_cnn.load_weights(Path("models/weights/state_level_24h/model_conv.weights.h5"))
 
